@@ -23,6 +23,7 @@ powershell -Command {
 }
 '
 
+false @" "
 # This bit runs on Unices
 
 # Detect Linux/Mac and architecture
@@ -41,4 +42,8 @@ case $(uname -m) in
 esac
 
 echo "$platform-$arch"
+
+exit
+
+false "@ "
 
