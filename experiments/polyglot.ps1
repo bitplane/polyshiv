@@ -23,7 +23,8 @@ powershell -Command {
 }
 '
 
-false @" "
+false @"
+false "
 # This bit runs on Unices
 
 # Detect Linux/Mac and architecture
@@ -45,5 +46,6 @@ echo "$platform-$arch"
 
 exit
 
-false "@ "
+false "@
+false \"
 
