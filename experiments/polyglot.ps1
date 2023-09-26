@@ -46,6 +46,5 @@ echo "$platform-$arch"
 
 exit
 
-false "@
-false \"
+"@
 
