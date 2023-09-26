@@ -1,28 +1,29 @@
 #!/bin/bash
-: <<'POWERSHELL'
-<#
-.SYNOPSIS
-This is a polyglot script that detects the platform.
-#>
 
-# Detect Windows architecture
-$arch = if ([IntPtr]::Size -eq 8) { "amd64" } else { "386" }
+# This bit runs in Windows
+: '
+powershell -Command {
 
-# Detect if Windows is ARM
-if ((Get-WmiObject -Class Win32_Processor).Architecture -eq 5) {
-    $arch = "arm"
-} elseif ((Get-WmiObject -Class Win32_Processor).Architecture -eq 12) {
-    $arch = "arm64"
+    $POLYGLOT_MODE="POWERSHELL"
+
+    # Detect Windows architecture
+    $arch = if ([IntPtr]::Size -eq 8) { "amd64" } else { "386" }
+
+    # Detect if Windows is ARM
+    if ((Get-WmiObject -Class Win32_Processor).Architecture -eq 5) {
+        $arch = "arm"
+    } elseif ((Get-WmiObject -Class Win32_Processor).Architecture -eq 12) {
+        $arch = "arm64"
+    }
+
+    Write-Host "windows-$arch"
+
+    # Exit from PowerShell to prevent running bash part
+    exit
 }
+'
 
-Write-Host "windows-$arch"
-
-# Exit from PowerShell to prevent running bash part
-exit
-#>
-POWERSHELL
-
-# Bash code starts here. It will be ignored in PowerShell due to <# ... #> comment block
+# This bit runs on Unices
 
 # Detect Linux/Mac and architecture
 platform="unknown"
