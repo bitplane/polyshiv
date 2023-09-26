@@ -33,7 +33,7 @@ set +o histexpand 2>/dev/null
         Darwin*) platform="darwin" ;;
     esac
 
-    arch="unknown"
+    arch=$(uname -m)
     case $(uname -m) in
         x86_64) arch="amd64" ;;
         i386) arch="386" ;;
