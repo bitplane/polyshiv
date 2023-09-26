@@ -1,0 +1,31 @@
+name: Test Polyglot Script
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Run Script
+      run: ./experiments/polyglot.ps1
+
+  test-arm:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+    - name: Run ARM container
+      run: |
+        docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+        docker run -v $PWD:/workdir -w /workdir --rm arm64v8/ubuntu bash -c "./experiments/polyglot.ps1"
+
